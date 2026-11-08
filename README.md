@@ -65,6 +65,7 @@ Runtime configuration commands:
 >config rpc_type listening
 >rpc text Listening to music
 >rpc type listening
+>rpc clear
 >status dnd
 >lastfm
 >cover
@@ -91,6 +92,8 @@ When `LASTFM_APPLICATION_ID` is set, album artwork is dynamically resolved and d
 Discord IPC requires the Discord desktop client to be running locally; it will not work from the Docker/Coolify deployment. The `>cover` command works in both setups and sends the current dynamic artwork directly.
 
 The cog polls every 60 seconds by default, only replaces the manual RPC while a track is marked as currently playing, and restores the configured manual RPC when playback stops. The RPC displays `Listening to music`, followed by the track title, album, and artist. Use `>lastfm` to check the configured account and immediately set the RPC to its current track. Use `>cover` to send the current album artwork.
+
+Use `>rpc clear` to show no activity when Last.fm is not currently playing.
 
 ## Layout
 
