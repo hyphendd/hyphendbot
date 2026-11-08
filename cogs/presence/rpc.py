@@ -9,7 +9,7 @@ class RpcCog(commands.Cog): # main class
     @commands.group(invoke_without_command=True)
     async def rpc(self, ctx: commands.Context) -> None:
         if ctx.invoked_subcommand is None:
-            await ctx.send('use `>rpc text <text>` or `>rpc type <type>`')
+            await ctx.send('use `>rpc text <text>`, `>rpc type <type>`, or `>rpc clear`')
 
     @rpc.command(name='text')
     async def rpc_text(
@@ -36,3 +36,9 @@ class RpcCog(commands.Cog): # main class
         self.bot.config.custom_rpc_type = activity_type # sets rpc activity type
         await update_presence(self.bot) 
         await ctx.send(f'rpc type set to `{activity_type}`') # output when the presence has been updated
+
+    @rpc.command(name='clear')
+    async def rpc_clear(self, ctx: commands.Context) -> None:
+        self.bot.config.custom_rpc = ''
+        await update_presence(self.bot)
+        await ctx.send('rpc cleared')

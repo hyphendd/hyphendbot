@@ -1,3 +1,5 @@
+from typing import Optional
+
 import discord
 from discord.ext import commands
 
@@ -11,7 +13,10 @@ STATUS_VALUES = { # this is pretty obvious ngl
 }
 
 
-def build_custom_activity(config) -> discord.Activity:
+def build_custom_activity(config) -> Optional[discord.Activity]:
+    if not config.custom_rpc:
+        return None
+
     activity_type = config.custom_rpc_type
     if activity_type == 'listening':
         return discord.Activity(
@@ -35,7 +40,7 @@ async def update_presence(
     activity: discord.Activity = None,
 ) -> None:
     await bot.change_presence(
-        activity=activity or build_custom_activity(bot.config),
+        activity=activity if activity is not None else build_custom_activity(bot.config),
         status=build_status(bot.config),
     ) # update pressence async cuz network yk
 
