@@ -80,6 +80,11 @@ class LastFmRpcCog(commands.Cog):
             self.desktop_rpc = DesktopRpc(bot.config.lastfm_application_id)
         self.lastfm_rpc.start()
 
+    @commands.Cog.listener()
+    async def on_ready(self) -> None:
+        if self.bot.config.lastfm_only:
+            await update_presence(self.bot)
+
     def cog_unload(self) -> None:
         self.lastfm_rpc.cancel()
         if self.session is not None and not self.session.closed:

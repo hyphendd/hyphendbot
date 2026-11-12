@@ -22,6 +22,7 @@ class Config:
     lastfm_poll_interval: float
     lastfm_application_id: str
     lastfm_image_key: str
+    lastfm_only: bool
 
     @classmethod
     def from_environment(cls) -> 'Config':
@@ -44,4 +45,5 @@ class Config:
             lastfm_poll_interval=max(30.0, float(env_value('lastfm_poll_interval', '60'))),
             lastfm_application_id=env_value('lastfm_application_id').strip(),
             lastfm_image_key=env_value('lastfm_image_key').strip(),
+            lastfm_only=env_value('lastfm_only').strip().lower() in {'1', 'true', 'yes', 'on'},
         )

@@ -29,6 +29,7 @@ LASTFM_USERNAME=your-lastfm-username
 LASTFM_POLL_INTERVAL=60
 LASTFM_APPLICATION_ID=
 LASTFM_IMAGE_KEY=
+LASTFM_ONLY=false
 ```
 
 The local `env` file is excluded from the image. Keep the token in Coolify's environment settings and enable automatic restart so the worker starts again after a crash or redeploy.
@@ -50,6 +51,7 @@ lastfm_username=your-lastfm-username
 lastfm_poll_interval=60
 lastfm_application_id=
 lastfm_image_key=
+lastfm_only=false
 ```
 
 `delete_after` controls how long prefix command messages and explicitly scheduled command responses remain visible. Set it to `0` or a negative value to disable deletion.
@@ -94,6 +96,8 @@ Discord IPC requires the Discord desktop client to be running locally; it will n
 The cog polls every 60 seconds by default, only replaces the manual RPC while a track is marked as currently playing, and restores the configured manual RPC when playback stops. The RPC displays `Listening to music`, followed by the track title, album, and artist. Use `>lastfm` to check the configured account and immediately set the RPC to its current track. Use `>cover` to send the current album artwork.
 
 Use `>rpc clear` to show no activity when Last.fm is not currently playing.
+
+Set `LASTFM_ONLY=true` to run only the automatic Last.fm RPC. This disables the other cogs and commands, clears the configured custom RPC, and leaves no activity when no track is playing. It does not guarantee mobile notifications because the personal account is still connected to Discord.
 
 ## Layout
 

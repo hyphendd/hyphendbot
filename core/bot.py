@@ -30,10 +30,18 @@ class HyphendBot(commands.Bot):
         return await super().get_context(message, cls=cls)
 
     async def setup_hook(self) -> None: # import all cogs here to avoid circular imports
+        from cogs.lastfm.rpc import LastFmRpcCog
+
+        if self.config.lastfm_only:
+            self.config.custom_rpc = ''
+            await self.add_cog(LastFmRpcCog(self))
+            self.remove_command('lastfm')
+            self.remove_command('cover')
+            return
+
         from cogs.coreutils.cleanup import CleanupCog
         from cogs.coreutils.config import ConfigCog
         from cogs.general import GeneralCog
-        from cogs.lastfm.rpc import LastFmRpcCog
         from cogs.presence.presence import PresenceCog
         from cogs.presence.status import StatusCog
         from cogs.presence.rpc import RpcCog
