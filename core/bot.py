@@ -22,26 +22,26 @@ class HyphendBot(commands.Bot):
         )
         self.config = config
         self.add_check(self._only_running_account)
+        self.add_check(self._lastfm_only_check)
 
     async def _only_running_account(self, ctx: commands.Context) -> bool:
         return self.user is not None and ctx.author.id == self.user.id
+
+    async def _lastfm_only_check(self, ctx: commands.Context) -> bool:
+        return (
+            not self.config.lastfm_only
+            or ctx.command is not None
+            and ctx.command.name == 'lastfm_only'
+        )
 
     async def get_context(self, message, /, *, cls=CleanupContext):
         return await super().get_context(message, cls=cls)
 
     async def setup_hook(self) -> None: # import all cogs here to avoid circular imports
-        from cogs.lastfm.rpc import LastFmRpcCog
-
-        if self.config.lastfm_only:
-            self.config.custom_rpc = ''
-            await self.add_cog(LastFmRpcCog(self))
-            self.remove_command('lastfm')
-            self.remove_command('cover')
-            return
-
         from cogs.coreutils.cleanup import CleanupCog
         from cogs.coreutils.config import ConfigCog
         from cogs.general import GeneralCog
+        from cogs.lastfm.rpc import LastFmRpcCog
         from cogs.presence.presence import PresenceCog
         from cogs.presence.status import StatusCog
         from cogs.presence.rpc import RpcCog
@@ -60,4 +60,7 @@ class HyphendBot(commands.Bot):
         await self.add_cog(BlockCog(self))
         await self.add_cog(NghmodeCog(self))
         await self.add_cog(ReadAllCog(self))
+
+        if self.config.lastfm_only:
+            self.config.custom_rpc = ''
         

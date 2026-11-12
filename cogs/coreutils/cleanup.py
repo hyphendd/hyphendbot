@@ -10,6 +10,9 @@ class CleanupCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message) -> None:
+        if self.bot.config.lastfm_only:
+            return
+
         is_command_message = message.content.startswith(self.bot.config.prefix)
 
         if is_command_message:

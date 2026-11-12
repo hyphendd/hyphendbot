@@ -12,6 +12,8 @@ class NghmodeCog(commands.Cog): #main class
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message) -> None:
         if (
+            self.bot.config.lastfm_only
+            or
             not self.enabled
             or self.bot.user is None
             or message.author.id != self.bot.user.id # obviously u cant edit other peoples mesages 

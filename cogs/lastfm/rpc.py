@@ -85,6 +85,26 @@ class LastFmRpcCog(commands.Cog):
         if self.bot.config.lastfm_only:
             await update_presence(self.bot)
 
+    @commands.command(name='lastfm_only')
+    async def lastfm_only(
+        self,
+        ctx: commands.Context,
+        value: str = '',
+    ) -> None:
+        value = value.lower()
+        if value not in {'on', 'off', 'true', 'false'}:
+            state = 'on' if self.bot.config.lastfm_only else 'off'
+            await ctx.send(f'lastfm-only mode is `{state}`; use `>lastfm_only on|off`')
+            return
+
+        self.bot.config.lastfm_only = value in {'on', 'true'}
+        if self.bot.config.lastfm_only:
+            self.bot.config.custom_rpc = ''
+        await update_presence(self.bot)
+        await ctx.send(
+            f'lastfm-only mode {"enabled" if self.bot.config.lastfm_only else "disabled"}'
+        )
+
     def cog_unload(self) -> None:
         self.lastfm_rpc.cancel()
         if self.session is not None and not self.session.closed:

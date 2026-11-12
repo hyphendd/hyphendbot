@@ -68,6 +68,8 @@ Runtime configuration commands:
 >rpc text Listening to music
 >rpc type listening
 >rpc clear
+>lastfm_only on
+>lastfm_only off
 >status dnd
 >lastfm
 >cover
@@ -97,7 +99,7 @@ The cog polls every 60 seconds by default, only replaces the manual RPC while a 
 
 Use `>rpc clear` to show no activity when Last.fm is not currently playing.
 
-Set `LASTFM_ONLY=true` to run only the automatic Last.fm RPC. This disables the other cogs and commands, clears the configured custom RPC, and leaves no activity when no track is playing. It does not guarantee mobile notifications because the personal account is still connected to Discord.
+Set `LASTFM_ONLY=true` to enable automatic Last.fm-only mode at startup. Other commands are blocked while it is enabled, the configured custom RPC is cleared, and no activity is shown when no track is playing. Toggle it at runtime with `>lastfm_only on` or `>lastfm_only off`. It does not guarantee mobile notifications because the personal account is still connected to Discord.
 
 ## Layout
 
